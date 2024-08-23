@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -20,6 +21,54 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _obscureText = !_obscureText;
     });
+  }
+
+  Future<void> _registerUser() async {
+    // Backend API URL
+    final String apiUrl = "http://10.0.2.2/flutter_api/insert_user.php"; // Use 10.0.2.2 for localhost on Android Emulator
+
+    // Prepare data to send
+    final Map<String, String> data = {
+      "full_name": fullNameController.text,
+      "email": emailController.text,
+      "phone_num": mobileController.text,
+      "dob": dobController.text,
+      "password": passwordController.text,
+    };
+
+    try {
+      // Send HTTP POST request
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        body: data,
+      );
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        print(responseData); // Print the response to see what is returned
+
+        if (responseData['success']) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(responseData['message'])),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(responseData['message'])),
+          );
+        }
+      } else {
+        print('Server error: ${response.statusCode}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Server error: ${response.statusCode}')),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
   }
 
   @override
@@ -146,7 +195,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Handle valid form here
+                    _registerUser(); // Call the method to insert data into the database
                   }
                 },
                 child: Text('Sign Up'),

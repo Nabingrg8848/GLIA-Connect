@@ -95,7 +95,7 @@ class _ConcussionScreenState extends State<ConcussionScreen> {
                 SizedBox(width: 10),
                 Expanded(
                   flex: 1,
-                  child: Image.asset('assets/concussion_image.png'), // Make sure to add this image to your assets
+                  child: Image.asset('assets/concussion.png'), // Make sure to add this image to your assets
                 ),
               ],
             ),

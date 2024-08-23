@@ -24,11 +24,15 @@ class _LoginActivityState extends State<LoginActivity> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       // Simulate a login success and navigate to MainActivity
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainActivity()));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainActivity())
+      );
     } else {
       print('Form is not valid');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

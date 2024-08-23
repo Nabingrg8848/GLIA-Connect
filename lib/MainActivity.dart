@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
-import 'ConcussionScreen.dart'; // Make sure this path is correct
+import 'ConcussionScreen.dart'; // Ensure these paths are correct
+import 'PTSDScreen.dart';
+import 'TBIScreen.dart';
+import 'QuizScreen.dart';
+import 'Profile.dart'; // Import Profile.dart
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MainActivity(),
+    );
+  }
+}
 
 class MainActivity extends StatelessWidget {
   @override
@@ -8,10 +25,14 @@ class MainActivity extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.blue),
-          onPressed: () {
-            // Handle menu button press
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu, color: Colors.blue),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
           },
         ),
         title: Text(
@@ -33,6 +54,7 @@ class MainActivity extends StatelessWidget {
           ),
         ],
       ),
+      drawer: CustomDrawer(), // Call the CustomDrawer class here
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -125,6 +147,21 @@ class MainActivity extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => ConcussionScreen(userType: 'user')), // Change userType accordingly
           );
+        } else if (title == 'PTSD') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PTSDScreen()), // Navigate to PTSDScreen
+          );
+        } else if (title == 'TBI') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TBIScreen()), // Navigate to TBIScreen
+          );
+        } else if (title == 'Quiz') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => QuizScreen()), // Navigate to QuizScreen
+          );
         }
       },
       child: Column(
@@ -144,6 +181,82 @@ class MainActivity extends StatelessWidget {
           Text(
             title,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// This is the CustomDrawer class
+class CustomDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text('John Doe', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            accountEmail: null,
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_pic.png'), // Replace with your image asset
+            ),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.person, color: Colors.blue),
+            title: Text('Profile'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()), // Navigate to ProfilePage
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.favorite, color: Colors.blue),
+            title: Text('Favorite'),
+            onTap: () {
+              // Handle Favorite tap
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.credit_card, color: Colors.blue),
+            title: Text('Payment Method'),
+            onTap: () {
+              // Handle Payment Method tap
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.lock, color: Colors.blue),
+            title: Text('Privacy Policy'),
+            onTap: () {
+              // Handle Privacy Policy tap
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings, color: Colors.blue),
+            title: Text('Settings'),
+            onTap: () {
+              // Handle Settings tap
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.help, color: Colors.blue),
+            title: Text('Help'),
+            onTap: () {
+              // Handle Help tap
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.exit_to_app, color: Colors.blue),
+            title: Text('Logout'),
+            onTap: () {
+              // Handle Logout tap
+            },
           ),
         ],
       ),
