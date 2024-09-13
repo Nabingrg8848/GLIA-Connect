@@ -7,6 +7,9 @@ import 'QuizScreen.dart';
 import 'Profile.dart';
 import 'HelpCenter.dart';
 import 'LoginActivity.dart';
+import 'PrivacyPolicy.dart';
+import 'SportsScreen.dart';
+import 'PCSScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -201,6 +204,16 @@ class _MainActivityState extends State<MainActivity> {
             context,
             MaterialPageRoute(builder: (context) => ConcussionScreen(userType: 'user')),
           );
+        } else if (title == 'PCS') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PCSScreen()),
+          );
+        } else if (title == 'Sports') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SportsVideoScreen()),
+          );
         } else if (title == 'PTSD') {
           Navigator.push(
             context,
@@ -287,7 +300,10 @@ class CustomDrawer extends StatelessWidget {
             leading: Icon(Icons.lock, color: Colors.blue),
             title: Text('Privacy Policy'),
             onTap: () {
-              // Handle Privacy Policy tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
+              );
             },
           ),
           ListTile(
